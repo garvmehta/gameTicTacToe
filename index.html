@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC TAC TOE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Permanent Marker', cursive;
+
+        }
+
+        .main {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(255, 209, 5);
+            /* transition: display 2s ease-in-out; */
+
+        }
+
+        .header {
+            width: 100%;
+            height: 110px;
+            text-align: center;
+            font-size: 50px;
+            color: darkred;
+            /* border: 1px solid black; */
+        }
+
+        .container {
+            width: 400px;
+            height: 400px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+        }
+
+        .boxes {
+            margin: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid black;
+            font-size: 1px;
+            cursor: pointer;
+
+        }
+
+        #one {
+            border-top: 0px black solid;
+            border-left: 0px black solid;
+        }
+
+        #two {
+            border-top: 0px black solid;
+        }
+
+        #three {
+            border-top: 0px solid black;
+            border-right: 0px solid black;
+        }
+
+        #four {
+            border-left: 0px solid black;
+        }
+
+        #six {
+            border-right: 0px solid black;
+        }
+
+        #seven {
+            border-left: 0px solid black;
+            border-bottom: 0px solid black;
+        }
+
+        #eight {
+            border-bottom: 0px solid black;
+        }
+
+        #nine {
+            border-bottom: 0px solid black;
+            border-right: 0px solid black;
+        }
+
+        .start {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(255, 209, 5);
+
+        }
+
+        .container2 {
+            width: 400px;
+            height: 280px;
+            /* border: black solid 1px; */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+        }
+
+        .description {
+            color: darkred;
+        }
+
+        #Start {
+            width: 130px;
+            height: 40px;
+            font-size: 25px;
+            background-color: rgb(245, 243, 243);
+            border-style: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .end {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(255, 209, 5);
+        }
+
+        .container3 {
+            width: 400px;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            border-radius: 10px;
+            animation: dropdown 500ms ease-in-out;
+        }
+
+        @keyframes dropdown {
+            from {
+                position: relative;
+                top: -400px;
+                opacity: 0;
+            }
+
+            to {
+                position: relative;
+                top: 0px;
+                opacity: 1;
+            }
+        }
+
+        #restart {
+            width: 200px;
+            height: 40px;
+            font-size: 20px;
+            background-color: rgb(245, 243, 243);
+            border-style: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        @media only screen and (min-device-width:350px) and (max-device-width:600px) {
+
+           .container{
+               width:350px;
+               height:350px;
+           }
+           .container2{
+               width: 350px;
+               height: 350px;
+           }
+           .container3{
+               width: 350px;
+               height: 200px;
+               font-size: 25px;
+           }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="header">TIC TAC TOE</div>
+        <div class="container">
+            <div class="boxes" id="one">1</div>
+            <div class="boxes" id="two">2</div>
+            <div class="boxes" id="three">3</div>
+            <div class="boxes" id="four">4</div>
+            <div class="boxes" id="five">5</div>
+            <div class="boxes" id="six">6</div>
+            <div class="boxes" id="seven">7</div>
+            <div class="boxes" id="eight">8</div>
+            <div class="boxes" id="nine">9</div>
+        </div>
+    </div>
+    <div class="start">
+        <div class="container2">
+            <span>TIC TAC TOE</span>
+            <div class="description">
+                <span>X for Player 1</span>
+                <br>
+                <span>O for Player 2</span>
+            </div>
+            <button id="Start">Start</button>
+        </div>
+    </div>
+    <div class="end">
+        <div class="container3">
+            <Span id="whowin">X</Span>
+            <Span id="Player">Player 1 won the match</Span>
+            <button id="restart">One more Game</button>
+        </div>
+    </div>
+    <script>
+        var box = document.getElementsByClassName('boxes');
+        const display = document.getElementsByClassName('main');
+        const game = document.getElementsByClassName('start');
+        const end = document.getElementsByClassName('end');
+        var choice = 1;
+        var sign;
+        for (let i = 0; i < box.length; i++) {
+            box[i].addEventListener('click', main);
+            box[i].addEventListener('click', final); // this function is used for check winner or losser.
+            function main() {
+                this.style.fontSize = "60px";
+                if (choice % 2 == 1) {
+                    sign = "X";
+                    this.innerHTML = sign;
+                    choice++;
+                    this.removeEventListener('click', main); // remove event for div element
+                }
+                else {
+                    sign = "O";
+                    this.innerHTML = sign;
+                    choice++;
+                    this.removeEventListener('click', main); // remove event for div element
+                }
+            }
+        }
+        function final() { // this condition is used to check who is winner
+            if (box[0].innerHTML == box[1].innerHTML && box[1].innerHTML == box[2].innerHTML ||
+                box[0].innerHTML == box[4].innerHTML && box[4].innerHTML == box[8].innerHTML ||
+                box[0].innerHTML == box[3].innerHTML && box[3].innerHTML == box[6].innerHTML ||
+                box[3].innerHTML == box[4].innerHTML && box[4].innerHTML == box[5].innerHTML ||
+                box[6].innerHTML == box[7].innerHTML && box[7].innerHTML == box[8].innerHTML ||
+                box[2].innerHTML == box[4].innerHTML && box[4].innerHTML == box[6].innerHTML ||
+                box[1].innerHTML == box[4].innerHTML && box[4].innerHTML == box[7].innerHTML ||
+                box[2].innerHTML == box[5].innerHTML && box[5].innerHTML == box[8].innerHTML) {
+                if (sign == "X") {
+                    end[0].style.display = "flex";
+                    display[0].style.display = "none";
+                    document.getElementById('whowin').style.fontSize = "50px";
+                    document.getElementById('whowin').innerHTML = sign;
+                    document.getElementById('Player').innerHTML = "Player 1 won the match";
+                }
+                else {
+                    display[0].style.display = "none";
+                    document.getElementById('whowin').style.fontSize = "50px";
+                    end[0].style.display = "flex";
+                    document.getElementById('whowin').innerHTML = sign;
+                    document.getElementById('Player').innerHTML = "Player 2 won the match";
+                }
+            }
+            else {
+                var confirm = 0;
+                // this loop is used to check match is draw.
+                for (let i = 0; i < box.length; i++) {
+                    if (box[i].innerHTML == "X" || box[i].innerHTML == "O") {
+                        confirm++;
+                    }
+                    else {
+                        confirm = 0;
+                    }
+                }
+                if (confirm == 9) {
+                    display[0].style.display = "none";
+                    document.getElementById('whowin').style.fontSize = "50px";
+                    end[0].style.display = "flex";
+                    document.getElementById('whowin').innerHTML = "DRAW";
+                    document.getElementById('Player').innerHTML = "match is Draw";
+                }
+
+            }
+        }
+
+        document.getElementById('Start').addEventListener('click', function () {
+            display[0].style.display = "flex";
+            game[0].style.display = "none";
+        });
+        document.getElementById('restart').addEventListener('click', function () {
+            location.reload();
+        });
+    </script>
+</body>
+
+</html>
